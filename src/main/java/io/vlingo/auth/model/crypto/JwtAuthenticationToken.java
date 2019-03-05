@@ -19,8 +19,6 @@ public class JwtAuthenticationToken implements AuthenticationToken {
     private JwtAuthenticationToken(User user, Instant expiresOn) {
         this.user = user;
         this.expiresOn = expiresOn;
-
-
     }
 
     @Override
