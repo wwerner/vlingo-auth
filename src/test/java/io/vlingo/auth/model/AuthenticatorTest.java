@@ -9,6 +9,7 @@ package io.vlingo.auth.model;
 
 import static io.vlingo.auth.model.ModelFixtures.tenant;
 import static io.vlingo.auth.model.ModelFixtures.user;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -28,10 +29,10 @@ public class AuthenticatorTest {
     final User user = user(tenant, hasher.hash(secret));
     final UserRepository repository = new TestUserRepository();
     repository.save(user);
-    
+
     final Authenticator authenticator = new Authenticator(hasher, repository);
-    
-    assertTrue(authenticator.authenticate(tenant.tenantId(), user.username(), secret));
+
+    assertEquals("true",authenticator.authenticate(tenant.tenantId(), user.username(), secret).entity.content);
   }
 
   @Test
@@ -42,10 +43,10 @@ public class AuthenticatorTest {
     final User user = user(tenant, hasher.hash(secret));
     final UserRepository repository = new TestUserRepository();
     repository.save(user);
-    
+
     final Authenticator authenticator = new Authenticator(hasher, repository);
-    
-    assertTrue(authenticator.authenticate(tenant.tenantId(), user.username(), secret));
+
+    assertEquals("true",authenticator.authenticate(tenant.tenantId(), user.username(), secret).entity.content);
   }
 
   @Test
@@ -56,9 +57,9 @@ public class AuthenticatorTest {
     final User user = user(tenant, hasher.hash(secret));
     final UserRepository repository = new TestUserRepository();
     repository.save(user);
-    
+
     final Authenticator authenticator = new Authenticator(hasher, repository);
-    
-    assertTrue(authenticator.authenticate(tenant.tenantId(), user.username(), secret));
+
+    assertEquals("true",authenticator.authenticate(tenant.tenantId(), user.username(), secret).entity.content);
   }
 }
