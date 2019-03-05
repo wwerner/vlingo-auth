@@ -16,6 +16,7 @@ public class JwtAuthenticationToken implements AuthenticationToken {
     private final Instant expiresOn;
     private final User user;
 
+    private static final String signingSecret = "FIXME: secret from props/env"; //FIXME: make secret configurable, preferably from env
     private JwtAuthenticationToken(User user, Instant expiresOn) {
         this.user = user;
         this.expiresOn = expiresOn;
@@ -39,10 +40,9 @@ public class JwtAuthenticationToken implements AuthenticationToken {
             .claim(Claims.SUBJECT, user.username())
             .claim("tnt", user.tenantId().value)
             .addClaims(membershipClaims)
-            .signWith(SignatureAlgorithm.HS512, "FIXME: secret from props/env") //FIXME: make secret configurable, preferably from env
+            .signWith(SignatureAlgorithm.HS512, signingSecret)
             .compact();
     }
-
 
     public static AuthenticationToken of(User user, Instant expiresOn) {
         return new JwtAuthenticationToken(user, expiresOn);
