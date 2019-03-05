@@ -145,6 +145,8 @@ public final class User {
     return username;
   }
 
+  public Set<EncodedMember> memberships() { return memberships; }
+
   void assignTo(final Group group) {
     this.memberships.add(new GroupMember(group));
   }

@@ -7,7 +7,7 @@
 
 package io.vlingo.auth.model;
 
-abstract class EncodedMember {
+public abstract class EncodedMember {
   static final char GroupType = 'G';
   static final char PermissionType = 'P';
   static final char RoleType = 'R';
@@ -51,6 +51,10 @@ abstract class EncodedMember {
 
     return this.type == otherMember.type && this.id.equals(otherMember.id);
   }
+
+  public String id() { return id; }
+
+  public char type() { return type; }
 
   @Override
   public int hashCode() {
