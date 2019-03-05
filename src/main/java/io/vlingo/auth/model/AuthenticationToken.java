@@ -18,7 +18,4 @@ public class AuthenticationToken {
     public boolean expired() {
         return expiresOn.isBefore(Instant.now());
     }
-
-    //public boolean signed();
-
 }
