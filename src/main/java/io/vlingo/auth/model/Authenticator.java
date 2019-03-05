@@ -23,4 +23,5 @@ public class Authenticator {
 
         return user != null ? hasher.verify(plainSecret, user.vlingoCredential().secret) : false;
     }
+
 }
