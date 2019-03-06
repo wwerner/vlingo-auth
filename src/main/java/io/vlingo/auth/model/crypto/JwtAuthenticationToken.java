@@ -8,7 +8,9 @@ import io.vlingo.auth.model.EncodedMember;
 import io.vlingo.auth.model.User;
 
 import java.time.Instant;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -29,8 +31,13 @@ public class JwtAuthenticationToken implements AuthenticationToken {
 
     @Override
     public String token() {
-        Map<String, Object> membershipClaims = user.memberships().stream()
-            .collect(Collectors.toMap(m -> String.valueOf(m.type()), EncodedMember::id));
+
+        Map<String, String> membershipClaims = user.memberships().stream()
+            .collect(
+                Collectors.groupingBy(m -> String.valueOf(m.type()),
+                    Collectors.mapping(EncodedMember::id, Collectors.joining(","))));
+
+
 
         return Jwts.builder()
             .setSubject(user.username())
@@ -39,7 +46,7 @@ public class JwtAuthenticationToken implements AuthenticationToken {
             .setHeaderParam(Header.TYPE, Header.JWT_TYPE) // https://tools.ietf.org/html/rfc7519#section-5.1, https://tools.ietf.org/html/rfc7515#section-4.1.9
             .claim(Claims.SUBJECT, user.username())
             .claim("tnt", user.tenantId().value)
-            .addClaims(membershipClaims)
+           .addClaims(Collections.unmodifiableMap(membershipClaims))
             .signWith(SignatureAlgorithm.HS512, signingSecret)
             .compact();
     }

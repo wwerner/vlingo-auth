@@ -10,8 +10,7 @@ import java.time.Instant;
 import static io.vlingo.auth.model.ModelFixtures.user;
 import static junit.framework.TestCase.assertEquals;
 import static org.hamcrest.CoreMatchers.containsString;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class JwtAuthenticationTokenTest {
 
@@ -37,7 +36,9 @@ public class JwtAuthenticationTokenTest {
 
         Role role = Role.with(tenantId, "Foo", "");
         Group group = Group.with(tenantId, "Bar", "");
+        Group group2 = Group.with(tenantId, "Baz", "");
         user.assignTo(group);
+        user.assignTo(group2);
         user.assignTo(role);
         String token = JwtAuthenticationToken.of(user, Instant.now().plusSeconds(1_000)).token();
         Jwt jwt = Jwts.parser()
@@ -45,7 +46,7 @@ public class JwtAuthenticationTokenTest {
             .parse(token);
 
         assertThat(jwt.getBody().toString(), containsString("R=Foo"));
-        assertThat(jwt.getBody().toString(), containsString("G=Bar"));
+        assertThat(jwt.getBody().toString(), containsString("G=Bar,Baz"));
     }
 
 }
