@@ -10,17 +10,18 @@ package io.vlingo.auth.model;
 import io.vlingo.auth.model.crypto.Hasher;
 
 public class Authenticator {
-  private final Hasher hasher;
-  private final UserRepository repository;
-  
-  public Authenticator(final Hasher hasher, final UserRepository repository) {
-    this.hasher = hasher;
-    this.repository = repository;
-  }
+    private final Hasher hasher;
+    private final UserRepository repository;
 
-  public boolean authenticate(final TenantId tenantId, final String username, final String plainSecret) {
-    final User user = repository.userOf(tenantId, username);
-    
-    return user != null ? hasher.verify(plainSecret, user.vlingoCredential().secret) : false;
-  }
+    public Authenticator(final Hasher hasher, final UserRepository repository) {
+        this.hasher = hasher;
+        this.repository = repository;
+    }
+
+    public boolean authenticate(final TenantId tenantId, final String username, final String plainSecret) {
+        final User user = repository.userOf(tenantId, username);
+
+        return user != null ? hasher.verify(plainSecret, user.vlingoCredential().secret) : false;
+    }
+
 }

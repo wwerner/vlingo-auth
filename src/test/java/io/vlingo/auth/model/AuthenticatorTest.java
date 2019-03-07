@@ -28,9 +28,9 @@ public class AuthenticatorTest {
     final User user = user(tenant, hasher.hash(secret));
     final UserRepository repository = new TestUserRepository();
     repository.save(user);
-    
+
     final Authenticator authenticator = new Authenticator(hasher, repository);
-    
+
     assertTrue(authenticator.authenticate(tenant.tenantId(), user.username(), secret));
   }
 
@@ -42,9 +42,9 @@ public class AuthenticatorTest {
     final User user = user(tenant, hasher.hash(secret));
     final UserRepository repository = new TestUserRepository();
     repository.save(user);
-    
+
     final Authenticator authenticator = new Authenticator(hasher, repository);
-    
+
     assertTrue(authenticator.authenticate(tenant.tenantId(), user.username(), secret));
   }
 
@@ -56,9 +56,9 @@ public class AuthenticatorTest {
     final User user = user(tenant, hasher.hash(secret));
     final UserRepository repository = new TestUserRepository();
     repository.save(user);
-    
+
     final Authenticator authenticator = new Authenticator(hasher, repository);
-    
+
     assertTrue(authenticator.authenticate(tenant.tenantId(), user.username(), secret));
   }
 }
